@@ -1,3 +1,5 @@
+package Controladores;
+
 import java.util.Date;
 
 public class TDARegistro {
@@ -7,6 +9,7 @@ public class TDARegistro {
     double monto;
     String tipo_monto;
     int numero_casa;
+
 
     public int getId_ing() {
         return id_ing;

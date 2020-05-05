@@ -1,5 +1,6 @@
 package interfaces;
 
+import Controladores.TDARegistro;
 import javafx.event.Event;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -71,6 +72,7 @@ public class CapturarIngresos extends Stage {
     }
 
     private void Guardar() {
+        TDARegistro registro =new TDARegistro();
 
     }
 
