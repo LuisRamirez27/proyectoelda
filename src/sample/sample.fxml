@@ -4,7 +4,30 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.ImageView?>
-<GridPane fx:controller="sample.Controller"
-          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<BorderPane fx:controller="sample.Controller"
+            xmlns:fx="http://javafx.com/fxml">
+    <center>
+        <GridPane vgap="10" hgap="5">
+            <padding>
+                <Insets topRightBottomLeft="60"/>
+            </padding>
+            <HBox GridPane.rowIndex="0" GridPane.columnIndex="0" spacing="10" alignment="CENTER">
+                <Label text="PANTALLA PRINCIPAL" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+            </HBox>
+            <ImageView fitHeight="50" fitWidth="50"  fx:id="Iv_Dolar" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+            <Label text="Capturar ingreso" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+            <Button text="Capturar" fx:id="BtnCaptura" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
 
-</GridPane>
+            <ImageView fitHeight="50" fitWidth="50"  fx:id="Iv_Tabla" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+            <Label text="Ver ingresos" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+            <Button text="Registros" fx:id="BtnRegistros" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+
+            <ImageView fitHeight="50" fitWidth="50"  fx:id="Iv_Salir" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+            <Label text="Salir" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+            <Button text="Exit" fx:id="BtnExit" GridPane.columnIndex="2" GridPane.rowIndex="3"/>
+        </GridPane>
+    </center>
+
+</BorderPane>
