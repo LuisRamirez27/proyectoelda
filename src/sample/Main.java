@@ -22,27 +22,10 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("Captura de Ingresos");
         primaryStage.setScene(new Scene(root,400,275));
+        primaryStage.isMaximized();
+        primaryStage.resizableProperty().setValue(Boolean.FALSE);
         primaryStage.show();
-        //new interfazPrincipalEjemplo();
-        //new CapturarIngresos();
     }
-
-    public void cargar(FXMLLoader loader, Object controller, ActionEvent event, Boolean size, String titulo) {
-        try {
-            Parent root= null;
-            loader.setController(controller);
-            root=loader.load();
-            Scene scene=new Scene(root);
-            stage.setTitle(titulo);
-            stage.setScene(scene);
-            stage.setMaximized(size);
-            stage.show();
-            ((Stage)(((Button) event.getSource()).getScene().getWindow())).hide();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
 
     public static void main(String[] args) {
         launch(args);

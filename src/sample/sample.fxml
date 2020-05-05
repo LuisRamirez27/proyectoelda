@@ -13,8 +13,8 @@
             <padding>
                 <Insets topRightBottomLeft="60"/>
             </padding>
-            <HBox GridPane.rowIndex="0" GridPane.columnIndex="0" spacing="10" alignment="CENTER">
-                <Label text="PANTALLA PRINCIPAL" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+            <HBox GridPane.rowIndex="0" GridPane.columnIndex="1" spacing="10" alignment="CENTER">
+                <Label text="REGISTO DE INGRESOS" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
             </HBox>
             <ImageView fitHeight="50" fitWidth="50"  fx:id="Iv_Dolar" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
             <Label text="Capturar ingreso" GridPane.columnIndex="1" GridPane.rowIndex="1"/>

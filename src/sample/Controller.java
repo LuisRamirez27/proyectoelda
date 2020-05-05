@@ -23,9 +23,9 @@ public class Controller implements Initializable {
     Main main = new Main();
     Alert alert = new Alert(Alert.AlertType.NONE);
 
-    Image image1 = new Image(getClass().getResourceAsStream("/images/dolar.png"));
-    Image image2 = new Image(getClass().getResourceAsStream("/images/ver.jpg"));
-    Image image3 = new Image(getClass().getResourceAsStream("/images/salir.jpg"));
+    Image image1 = new Image(getClass().getResourceAsStream("/images/D.png"));
+    Image image2 = new Image(getClass().getResourceAsStream("/images/Registros.png"));
+    Image image3 = new Image(getClass().getResourceAsStream("/images/cerrar.png"));
 
     EventHandler<ActionEvent> handler = new EventHandler<ActionEvent>() {
         @Override
