@@ -28,11 +28,13 @@ public class CapturarIngresos extends Stage {
         lblTitulo=new Label("Registro de Pago");
         lblTotalMes=new Label("Total Ingresos del mes");
         lblSaldoTotal=new Label("Saldo Total en caja");
+        lblSaldoTotal.setId("Total");
 //----------------------------------------------------------------------------------------------------------------------
         txtConcepto=new TextField();
         txtMonto=new TextField();
         txtTotalMes=new TextField();
         txtSaldoTotal=new TextField();
+        txtSaldoTotal.setId("Total");
 //----------------------------------------------------------------------------------------------------------------------
         tableView=new TableView();
         clmFecha=new TableColumn("Fecha");
@@ -42,6 +44,7 @@ public class CapturarIngresos extends Stage {
 //----------------------------------------------------------------------------------------------------------------------
         btnGuardar=new Button("Guardar");
         dpFecha=new DatePicker();
+        dpFecha.setPromptText("dd/mm/aa");
         escena=new Scene(principal);
 //----------------------------------------------------------------------------------------------------------------------
         principal.add(lblTitulo,2,0,3,1);
@@ -62,8 +65,9 @@ public class CapturarIngresos extends Stage {
         principal.setAlignment(Pos.CENTER);
         principal.autosize();
 //----------------------------------------------------------------------------------------------------------------------
-        txtTotalMes.setDisable(true);
-        txtSaldoTotal.setDisable(true);
+        txtTotalMes.setEditable(false);
+        txtSaldoTotal.setEditable(false);
+        escena.getStylesheets().add("css/estilo.css");
         setScene(escena);
         setMaximized(true);
         setTitle("Registro de Pago");
