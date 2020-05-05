@@ -1,5 +1,6 @@
 package sample;
 
+import interfaces.CapturarIngresos;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -30,7 +31,7 @@ public class Controller implements Initializable {
         @Override
         public void handle(ActionEvent event) {
             if(event.getSource() == BtnCaptura){
-
+                new CapturarIngresos();
             }else if(event.getSource() == BtnRegistros){
 
             }else if(event.getSource() == BtnExit){
