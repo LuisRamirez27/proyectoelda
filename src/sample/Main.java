@@ -1,5 +1,6 @@
 package sample;
 
+import interfaces.CapturarIngresos;
 import interfaces.interfazPrincipalEjemplo;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -13,7 +14,8 @@ public class Main extends Application {
         //primaryStage.setScene(new Scene(root, 300, 275));
         //primaryStage.show();
         //JOptionPane.showMessageDialog(null,"Hola Mundo");
-        new interfazPrincipalEjemplo();
+        //new interfazPrincipalEjemplo();
+        new CapturarIngresos();
     }
 
 
