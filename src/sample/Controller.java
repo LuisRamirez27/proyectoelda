@@ -31,6 +31,7 @@ public class Controller implements Initializable {
         @Override
         public void handle(ActionEvent event) {
             if(event.getSource() == BtnCaptura){
+                main.primaryStage.hide();
                 new CapturarIngresos();
             }else if(event.getSource() == BtnRegistros){
 

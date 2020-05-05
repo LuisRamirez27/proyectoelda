@@ -9,6 +9,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
+import sample.Main;
 
 public class CapturarIngresos extends Stage {
     Label lblFecha,lblConcepto,lblMonto,lblTitulo,lblTotalMes,lblSaldoTotal;
@@ -77,6 +78,8 @@ public class CapturarIngresos extends Stage {
 
     private void Guardar() {
         TDARegistro registro =new TDARegistro();
+
+
 
     }
 
