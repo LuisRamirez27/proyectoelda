@@ -1,10 +1,12 @@
 package interfaces;
 
 import Controladores.TDARegistro;
+import DAOs.ingresoDAO;
 import javafx.event.Event;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Paint;
@@ -17,7 +19,7 @@ public class CapturarIngresos extends Stage {
     TextField txtConcepto,txtMonto,txtTotalMes,txtSaldoTotal,txtnoCasa;
     DatePicker dpFecha;
     TableView tableView;
-    TableColumn clmFecha,clmConcepto,clmMonto;
+    TableColumn<TDARegistro,String> clmFecha,clmConcepto,clmMonto;
     GridPane principal;
     Scene escena;
 
@@ -35,14 +37,20 @@ public class CapturarIngresos extends Stage {
         txtConcepto=new TextField();
         txtMonto=new TextField();
         txtTotalMes=new TextField();
+        txtTotalMes.setText(String.valueOf(new ingresoDAO().selectMontoMensual()));
         txtSaldoTotal=new TextField();
+        txtSaldoTotal.setText(String.valueOf(new ingresoDAO().selectMontoTotal()));
         txtSaldoTotal.setId("Total");
         txtnoCasa = new TextField();
 //----------------------------------------------------------------------------------------------------------------------
         tableView=new TableView();
         clmFecha=new TableColumn("Fecha");
+        clmFecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));
         clmConcepto=new TableColumn("Concepto");
+        clmConcepto.setCellValueFactory(new PropertyValueFactory<>("concepto"));
         clmMonto=new TableColumn("Monto");
+        clmMonto.setCellValueFactory(new PropertyValueFactory<>("monto"));
+        tableView.setItems(new ingresoDAO().findAll());
         tableView.getColumns().addAll(clmFecha,clmConcepto,clmMonto);
 //----------------------------------------------------------------------------------------------------------------------
         btnGuardar=new Button("Guardar");
