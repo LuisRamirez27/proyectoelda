@@ -26,7 +26,7 @@ public class Main extends Application {
         primaryStage.isMaximized();
         primaryStage.resizableProperty().setValue(Boolean.FALSE);
         primaryStage.show();
-    }
+    }//puto el que lo lea
 
     public static void main(String[] args) {
         launch(args);
