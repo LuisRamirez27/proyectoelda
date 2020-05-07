@@ -15,6 +15,7 @@ import java.io.IOException;
 public class Main extends Application {
     public static  Stage primaryStage;
     Stage stage = new Stage();
+    //esto es solo un comentario sin sentido
 
     @Override
     public void start(Stage _primaryStage) throws Exception{

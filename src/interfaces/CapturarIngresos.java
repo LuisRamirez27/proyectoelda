@@ -78,9 +78,6 @@ public class CapturarIngresos extends Stage {
 
     private void Guardar() {
         TDARegistro registro =new TDARegistro();
-
-
-
     }
 
     public CapturarIngresos() {
