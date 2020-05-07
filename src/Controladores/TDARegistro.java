@@ -1,5 +1,6 @@
 package Controladores;
 
+import java.sql.Connection;
 import java.util.Date;
 
 public class TDARegistro {
@@ -9,7 +10,27 @@ public class TDARegistro {
     double monto;
     String tipo_monto;
     int numero_casa;
+    Connection conn;
 
+
+    public TDARegistro() {
+        conn=new MySQL().getConectar();
+    }
+
+    public TDARegistro(Date fecha, String concepto, double monto) {
+        this.fecha = fecha;
+        this.concepto = concepto;
+        this.monto = monto;
+    }
+
+    public TDARegistro(int id_ing, Date fecha, String concepto, double monto, String tipo_monto, int numero_casa) {
+        this.id_ing = id_ing;
+        this.fecha = fecha;
+        this.concepto = concepto;
+        this.monto = monto;
+        this.tipo_monto = tipo_monto;
+        this.numero_casa = numero_casa;
+    }
 
     public int getId_ing() {
         return id_ing;

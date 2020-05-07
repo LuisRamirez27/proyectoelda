@@ -5,6 +5,7 @@ import javafx.event.Event;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Paint;
@@ -39,8 +40,11 @@ public class CapturarIngresos extends Stage {
 //----------------------------------------------------------------------------------------------------------------------
         tableView=new TableView();
         clmFecha=new TableColumn("Fecha");
+        clmFecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));
         clmConcepto=new TableColumn("Concepto");
+        clmConcepto.setCellValueFactory(new PropertyValueFactory<>("concepto"));
         clmMonto=new TableColumn("Monto");
+        clmMonto.setCellValueFactory(new PropertyValueFactory<>("monto"));
         tableView.getColumns().addAll(clmFecha,clmConcepto,clmMonto);
 //----------------------------------------------------------------------------------------------------------------------
         btnGuardar=new Button("Guardar");
@@ -73,6 +77,7 @@ public class CapturarIngresos extends Stage {
         setMaximized(true);
         setTitle("Registro de Pago");
         btnGuardar.setOnAction(event -> Guardar());
+
         show();
     }
 

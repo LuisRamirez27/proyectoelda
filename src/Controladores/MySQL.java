@@ -7,39 +7,26 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class MySQL {
+    public Connection cn = null;
     private static Connection conn = null;
     private static String hostname   = "localhost";
     private static String dbname = "";
     private static String dbuser = "root";
     private static String dbpass = "";
-    private static String use = "useSSL=false";
-
-    public static void Connect() {
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            // String url = "jdbc:mysql://" + hostname + ":" + 3306 + "/" + dbname + "?user=" + dbuser + "&password=" + dbpass + use;
-            conn = DriverManager.getConnection("jdbc:mysql://"+ hostname +":3306/" + dbname, dbuser, dbpass );
-            // conn = DriverManager.getConnection(url);
-            System.out.println("Se ha iniciado la conexión con el servidor de forma exitosa");
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(MySQL.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(MySQL.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    public static Connection getConnection()
+    public Connection getConectar()
     {
-        if(conn == null) Connect();
-        return conn;
+        return cn;
     }
+    public MySQL()
+    {
+        try
+        {
 
-    public static void Disconnect() {
-        try {
-            conn.close();
-            System.out.println("Se ha finalizado la conexión con el servidor");
-        } catch (SQLException ex) {
-            Logger.getLogger(MySQL.class.getName()).log(Level.SEVERE, null, ex);
+            cn = DriverManager.getConnection("jdbc:mysql://"+ hostname +":3306/" + dbname, dbuser, dbpass );
+            System.out.println("Conectado");
+        } catch (SQLException ex)
+        {
+            System.err.println("Error: "+ex);
         }
     }
 }

@@ -1,5 +1,6 @@
 package sample;
 
+import Controladores.MySQL;
 import interfaces.CapturarIngresos;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -12,6 +13,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.net.URL;
+import java.sql.Connection;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
@@ -22,7 +24,7 @@ public class Controller implements Initializable {
 
     Main main = new Main();
     Alert alert = new Alert(Alert.AlertType.NONE);
-
+    Connection conn;
     Image image1 = new Image(getClass().getResourceAsStream("/images/D.png"));
     Image image2 = new Image(getClass().getResourceAsStream("/images/Registros.png"));
     Image image3 = new Image(getClass().getResourceAsStream("/images/cerrar.png"));
@@ -32,6 +34,7 @@ public class Controller implements Initializable {
         public void handle(ActionEvent event) {
             if(event.getSource() == BtnCaptura){
                 main.primaryStage.hide();
+                conn=new MySQL().getConectar();
                 new CapturarIngresos();
             }else if(event.getSource() == BtnRegistros){
 
