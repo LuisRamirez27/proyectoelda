@@ -1,6 +1,8 @@
 package DAOs;
 
+import Controladores.MySQL;
 import Controladores.TDARegistro;
+import com.mysql.jdbc.MySQLConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -10,8 +12,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class ingresoDAO {
-    Connection conn;
+    Connection conn=new MySQL().getConectar();
     private static ObservableList<TDARegistro> data = FXCollections.observableArrayList();
+//----------------------------------------------------------------------------------------------------------------------
     public ObservableList<TDARegistro> findAll() {
         ObservableList<TDARegistro> registros = FXCollections.observableArrayList();
         try {
@@ -34,5 +37,21 @@ public class ingresoDAO {
             System.out.println("Error al recuperar información...");
         }
         return registros;
+    }
+//----------------------------------------------------------------------------------------------------------------------
+    public double selectMontoMensual(){
+        double monto=0;
+        try {
+
+            String query = "select sum(monto) montoXmes from ingreso where month(fecha)=month(now()) and year(fecha)=year(now());";
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            rs.next();
+            monto=rs.getDouble("montoXmes");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            System.out.println("Error al recuperar información...");
+        }
+        return monto;
     }
 }
