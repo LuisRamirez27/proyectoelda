@@ -34,7 +34,6 @@ public class Controller implements Initializable {
         public void handle(ActionEvent event) {
             if(event.getSource() == BtnCaptura){
                 main.primaryStage.hide();
-                conn=new MySQL().getConectar();
                 new CapturarIngresos();
             }else if(event.getSource() == BtnRegistros){
 

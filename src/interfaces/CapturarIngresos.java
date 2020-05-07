@@ -1,6 +1,7 @@
 package interfaces;
 
 import Controladores.TDARegistro;
+import DAOs.ingresoDAO;
 import javafx.event.Event;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -17,8 +18,8 @@ public class CapturarIngresos extends Stage {
     Button btnGuardar;
     TextField txtConcepto,txtMonto,txtTotalMes,txtSaldoTotal;
     DatePicker dpFecha;
-    TableView tableView;
-    TableColumn clmFecha,clmConcepto,clmMonto;
+    TableView<TDARegistro> tableView;
+    TableColumn<TDARegistro,String> clmFecha,clmConcepto,clmMonto;
     GridPane principal;
     Scene escena;
 
@@ -39,12 +40,13 @@ public class CapturarIngresos extends Stage {
         txtSaldoTotal.setId("Total");
 //----------------------------------------------------------------------------------------------------------------------
         tableView=new TableView();
-        clmFecha=new TableColumn("Fecha");
+        clmFecha=new TableColumn<>("Fecha");
         clmFecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));
-        clmConcepto=new TableColumn("Concepto");
+        clmConcepto=new TableColumn<>("Concepto");
         clmConcepto.setCellValueFactory(new PropertyValueFactory<>("concepto"));
-        clmMonto=new TableColumn("Monto");
+        clmMonto=new TableColumn<>("Monto");
         clmMonto.setCellValueFactory(new PropertyValueFactory<>("monto"));
+        tableView.setItems(new ingresoDAO().findAll());
         tableView.getColumns().addAll(clmFecha,clmConcepto,clmMonto);
 //----------------------------------------------------------------------------------------------------------------------
         btnGuardar=new Button("Guardar");
@@ -77,7 +79,7 @@ public class CapturarIngresos extends Stage {
         setMaximized(true);
         setTitle("Registro de Pago");
         btnGuardar.setOnAction(event -> Guardar());
-
+        txtTotalMes.setText(new ingresoDAO().selectMontoMensual()+"");
         show();
     }
 
