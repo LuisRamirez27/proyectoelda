@@ -80,6 +80,7 @@ public class CapturarIngresos extends Stage {
         setTitle("Registro de Pago");
         btnGuardar.setOnAction(event -> Guardar());
         txtTotalMes.setText(new ingresoDAO().selectMontoMensual()+"");
+        txtSaldoTotal.setText(String.valueOf(new ingresoDAO().selectMontoTotal()));
         show();
     }
 
