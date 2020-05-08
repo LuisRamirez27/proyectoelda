@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Date;
 
 public class ingresoDAO {
     Connection conn=new MySQL().getConectar();
@@ -53,5 +54,36 @@ public class ingresoDAO {
             System.out.println("Error al recuperar información...");
         }
         return monto;
+    }
+//----------------------------------------------------------------------------------------------------------------------
+    public double selectMontoTotal(){
+        double monto=0;
+        try {
+
+            String query = "select sum(monto) montoTotal from ingreso";
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            rs.next();
+            monto=rs.getDouble("montoTotal");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            System.out.println("Error al recuperar información...");
+        }
+        return monto;
+    }
+//----------------------------------------------------------------------------------------------------------------------
+    public boolean insert(Date fecha,String concepto, double monto){
+        try{
+            String query="insert into ingreso (fecha,concepto,monto)" +
+                    "values ("+fecha+",'"+concepto+"',"+monto+");";
+            Statement statement=conn.createStatement();
+            ResultSet resultSet=statement.executeQuery(query);
+        }
+        catch (Exception e){
+
+        }
+
+        return true;
+
     }
 }

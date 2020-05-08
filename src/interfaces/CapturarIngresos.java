@@ -14,11 +14,11 @@ import javafx.stage.Stage;
 import sample.Main;
 
 public class CapturarIngresos extends Stage {
-    Label lblFecha,lblConcepto,lblMonto,lblTitulo,lblTotalMes,lblSaldoTotal;
-    Button btnGuardar;
-    TextField txtConcepto,txtMonto,txtTotalMes,txtSaldoTotal;
+    Label lblFecha,lblConcepto,lblMonto,lblTitulo,lblTotalMes,lblSaldoTotal,lblnoCasa;
+    Button btnGuardar,btnRegresar;
+    TextField txtConcepto,txtMonto,txtTotalMes,txtSaldoTotal,txtnoCasa;
     DatePicker dpFecha;
-    TableView<TDARegistro> tableView;
+    TableView tableView;
     TableColumn<TDARegistro,String> clmFecha,clmConcepto,clmMonto;
     GridPane principal;
     Scene escena;
@@ -32,24 +32,29 @@ public class CapturarIngresos extends Stage {
         lblTotalMes=new Label("Total Ingresos del mes");
         lblSaldoTotal=new Label("Saldo Total en caja");
         lblSaldoTotal.setId("Total");
+        lblnoCasa= new Label("No° Casa");
 //----------------------------------------------------------------------------------------------------------------------
         txtConcepto=new TextField();
         txtMonto=new TextField();
         txtTotalMes=new TextField();
+        txtTotalMes.setText(String.valueOf(new ingresoDAO().selectMontoMensual()));
         txtSaldoTotal=new TextField();
+        txtSaldoTotal.setText(String.valueOf(new ingresoDAO().selectMontoTotal()));
         txtSaldoTotal.setId("Total");
+        txtnoCasa = new TextField();
 //----------------------------------------------------------------------------------------------------------------------
         tableView=new TableView();
-        clmFecha=new TableColumn<>("Fecha");
+        clmFecha=new TableColumn("Fecha");
         clmFecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));
-        clmConcepto=new TableColumn<>("Concepto");
+        clmConcepto=new TableColumn("Concepto");
         clmConcepto.setCellValueFactory(new PropertyValueFactory<>("concepto"));
-        clmMonto=new TableColumn<>("Monto");
+        clmMonto=new TableColumn("Monto");
         clmMonto.setCellValueFactory(new PropertyValueFactory<>("monto"));
         tableView.setItems(new ingresoDAO().findAll());
         tableView.getColumns().addAll(clmFecha,clmConcepto,clmMonto);
 //----------------------------------------------------------------------------------------------------------------------
         btnGuardar=new Button("Guardar");
+        btnRegresar = new Button("Regresar");
         dpFecha=new DatePicker();
         dpFecha.setPromptText("dd/mm/aa");
         escena=new Scene(principal);
@@ -61,12 +66,15 @@ public class CapturarIngresos extends Stage {
         principal.add(dpFecha,1,1);
         principal.add(txtConcepto,1,2);
         principal.add(txtMonto,1,3);
-        principal.add(btnGuardar,1,4);
+        principal.add(txtnoCasa,1,4);
+        principal.add(lblnoCasa,0,4);
+        principal.add(btnGuardar,1,5);
         principal.add(tableView,2,1,1,5);
         principal.add(lblTotalMes,3,1);
         principal.add(txtTotalMes,3,2);
         principal.add(lblSaldoTotal,3,3);
         principal.add(txtSaldoTotal,3,4);
+        principal.add(btnRegresar,3,5);
         principal.setVgap(30);
         principal.setHgap(10);
         principal.setAlignment(Pos.CENTER);
@@ -79,7 +87,14 @@ public class CapturarIngresos extends Stage {
         setMaximized(true);
         setTitle("Registro de Pago");
         btnGuardar.setOnAction(event -> Guardar());
-        txtTotalMes.setText(new ingresoDAO().selectMontoMensual()+"");
+        btnRegresar.setOnAction(event -> {
+            this.close();
+            Stage stage = new Stage();
+            try{
+                Main main = new Main();
+                main.start(stage);
+            }catch (Exception e){}
+        });
         show();
     }
 
