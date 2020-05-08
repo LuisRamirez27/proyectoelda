@@ -22,15 +22,13 @@ public class ingresoDAO {
             TDARegistro r = null;
             while (rs.next()) {
                 r = new TDARegistro(
-                        rs.getInt("no_casa"),
+                        rs.getString("no_casa"),
                         rs.getDate("fecha"),
                         rs.getString("concepto"),
                         rs.getDouble("monto")
                 );
                 registros.add(r);
             }
-            rs.close();
-            st.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
             System.out.println("Error al recuperar información...");
