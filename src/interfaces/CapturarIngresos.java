@@ -96,6 +96,9 @@ public class CapturarIngresos extends Stage {
                 monto = Double.parseDouble(txtMonto.getText());
                 fecha1 = dpFecha.getValue().toString();
                 agregar.insert(no_casa,fecha1,concepto,monto);
+                tableView.getItems().clear();
+                tableView.setItems(new ingresoDAO().findAll());
+
            }catch (Exception e){}
 
         });
