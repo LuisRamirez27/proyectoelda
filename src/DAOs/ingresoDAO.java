@@ -70,7 +70,7 @@ public class ingresoDAO {
         return monto;
     }
 //----------------------------------------------------------------------------------------------------------------------
-
+//cambio
     public boolean insert(int no_casa,String fecha,String concepto, double monto){
         try{
             String query="insert into ingreso (no_casa,fecha,concepto,monto) values ('"+no_casa+"','"+fecha+"','"+concepto+"',"+monto+");";
