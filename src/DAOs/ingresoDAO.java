@@ -2,17 +2,12 @@ package DAOs;
 
 import Controladores.MySQL;
 import Controladores.TDARegistro;
-import com.mysql.jdbc.MySQLConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class ingresoDAO {
     Connection conn=new MySQL().getConectar();

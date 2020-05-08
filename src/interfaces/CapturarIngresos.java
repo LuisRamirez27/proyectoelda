@@ -23,6 +23,8 @@ public class CapturarIngresos extends Stage {
     String concepto,fecha1;
     double monto;
 
+    Alert alert = new Alert(Alert.AlertType.NONE);
+
     public void CrearGUI(){
         principal=new GridPane();
         lblFecha=new Label("Fecha");
@@ -88,6 +90,7 @@ public class CapturarIngresos extends Stage {
         setScene(escena);
         setMaximized(true);
         setTitle("Registro de Pago");
+
         btnGuardar.setOnAction(event -> {
             try{
                 ingresoDAO agregar = new ingresoDAO();
@@ -98,10 +101,17 @@ public class CapturarIngresos extends Stage {
                 agregar.insert(no_casa,fecha1,concepto,monto);
                 tableView.getItems().clear();
                 tableView.setItems(new ingresoDAO().findAll());
-
+                txtTotalMes.setText(String.valueOf(new ingresoDAO().selectMontoMensual()));
+                txtSaldoTotal.setText(String.valueOf(new ingresoDAO().selectMontoTotal()));
+                txtnoCasa.clear();
+                txtConcepto.clear();
+                txtMonto.clear();
            }catch (Exception e){}
 
         });
+
+
+
         btnRegresar.setOnAction(event -> {
             this.close();
             Stage stage = new Stage();
@@ -116,5 +126,21 @@ public class CapturarIngresos extends Stage {
 
     public CapturarIngresos() {
         CrearGUI();
+    }
+
+    public boolean validacion(){
+        if(txtConcepto.getText().length()==0 || txtMonto.getText().length()==0 || txtnoCasa.getText().length()==0 || dpFecha.getValue()==null){
+            ALERTA();
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    private void ALERTA(){
+        alert.setAlertType(Alert.AlertType.ERROR);
+        alert.setTitle("ERROR");
+        alert.setContentText("Favor de llenar todos los campos");
+        alert.showAndWait();
     }
 }
