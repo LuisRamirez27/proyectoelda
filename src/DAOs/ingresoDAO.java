@@ -10,6 +10,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ingresoDAO {
@@ -25,6 +27,7 @@ public class ingresoDAO {
             TDARegistro r = null;
             while (rs.next()) {
                 r = new TDARegistro(
+                        rs.getInt("no_casa"),
                         rs.getDate("fecha"),
                         rs.getString("concepto"),
                         rs.getDouble("monto")
@@ -72,18 +75,22 @@ public class ingresoDAO {
         return monto;
     }
 //----------------------------------------------------------------------------------------------------------------------
-    public boolean insert(Date fecha,String concepto, double monto){
+
+    public boolean insert(int no_casa,String fecha,String concepto, double monto){
         try{
-            String query="insert into ingreso (fecha,concepto,monto)" +
-                    "values ("+fecha+",'"+concepto+"',"+monto+");";
+            String query="insert into ingreso (no_casa,fecha,concepto,monto) values ('"+no_casa+"','"+fecha+"','"+concepto+"',"+monto+");";
             Statement statement=conn.createStatement();
-            ResultSet resultSet=statement.executeQuery(query);
+            statement.execute(query);
+            System.out.println("Se Agregado el Ingreso");
         }
         catch (Exception e){
-
+            e.printStackTrace();
+            System.out.println("Error al isertar el Ingreso");
+            return false;
         }
 
         return true;
-
     }
+
+
 }

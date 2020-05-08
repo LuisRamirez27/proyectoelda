@@ -2,14 +2,11 @@ package interfaces;
 
 import Controladores.TDARegistro;
 import DAOs.ingresoDAO;
-import javafx.event.Event;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import sample.Main;
 
@@ -19,9 +16,12 @@ public class CapturarIngresos extends Stage {
     TextField txtConcepto,txtMonto,txtTotalMes,txtSaldoTotal,txtnoCasa;
     DatePicker dpFecha;
     TableView tableView;
-    TableColumn<TDARegistro,String> clmFecha,clmConcepto,clmMonto;
+    TableColumn<TDARegistro,String> clmnoCasa,clmFecha,clmConcepto,clmMonto;
     GridPane principal;
     Scene escena;
+    int no_casa;
+    String concepto,fecha1;
+    double monto;
 
     public void CrearGUI(){
         principal=new GridPane();
@@ -44,6 +44,8 @@ public class CapturarIngresos extends Stage {
         txtnoCasa = new TextField();
 //----------------------------------------------------------------------------------------------------------------------
         tableView=new TableView();
+        clmnoCasa= new TableColumn<>("No° Casa");
+        clmnoCasa.setCellValueFactory(new PropertyValueFactory<>("no_casa"));
         clmFecha=new TableColumn("Fecha");
         clmFecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));
         clmConcepto=new TableColumn("Concepto");
@@ -51,7 +53,7 @@ public class CapturarIngresos extends Stage {
         clmMonto=new TableColumn("Monto");
         clmMonto.setCellValueFactory(new PropertyValueFactory<>("monto"));
         tableView.setItems(new ingresoDAO().findAll());
-        tableView.getColumns().addAll(clmFecha,clmConcepto,clmMonto);
+        tableView.getColumns().addAll(clmnoCasa,clmFecha,clmConcepto,clmMonto);
 //----------------------------------------------------------------------------------------------------------------------
         btnGuardar=new Button("Guardar");
         btnRegresar = new Button("Regresar");
@@ -86,7 +88,17 @@ public class CapturarIngresos extends Stage {
         setScene(escena);
         setMaximized(true);
         setTitle("Registro de Pago");
-        btnGuardar.setOnAction(event -> Guardar());
+        btnGuardar.setOnAction(event -> {
+            try{
+                ingresoDAO agregar = new ingresoDAO();
+                no_casa = Integer.parseInt(txtnoCasa.getText());
+                concepto = txtConcepto.getText();
+                monto = Double.parseDouble(txtMonto.getText());
+                fecha1 = dpFecha.getValue().toString();
+                agregar.insert(no_casa,fecha1,concepto,monto);
+           }catch (Exception e){}
+
+        });
         btnRegresar.setOnAction(event -> {
             this.close();
             Stage stage = new Stage();
@@ -98,9 +110,6 @@ public class CapturarIngresos extends Stage {
         show();
     }
 
-    private void Guardar() {
-        TDARegistro registro =new TDARegistro();
-    }
 
     public CapturarIngresos() {
         CrearGUI();

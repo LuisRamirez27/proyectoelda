@@ -9,7 +9,7 @@ public class TDARegistro {
     String concepto;
     double monto;
     String tipo_monto;
-    int numero_casa;
+    int no_casa;
     Connection conn;
 
 
@@ -17,19 +17,20 @@ public class TDARegistro {
         conn=new MySQL().getConectar();
     }
 
-    public TDARegistro(Date fecha, String concepto, double monto) {
+    public TDARegistro(int no_casa, Date fecha, String concepto, double monto) {
+        this.no_casa = no_casa;
         this.fecha = fecha;
         this.concepto = concepto;
         this.monto = monto;
     }
 
-    public TDARegistro(int id_ing, Date fecha, String concepto, double monto, String tipo_monto, int numero_casa) {
+    public TDARegistro(int id_ing, Date fecha, String concepto, double monto, String tipo_monto, int no_casa) {
         this.id_ing = id_ing;
         this.fecha = fecha;
         this.concepto = concepto;
         this.monto = monto;
         this.tipo_monto = tipo_monto;
-        this.numero_casa = numero_casa;
+        this.no_casa = no_casa;
     }
 
     public int getId_ing() {
@@ -72,11 +73,11 @@ public class TDARegistro {
         this.tipo_monto = tipo_monto;
     }
 
-    public int getNumero_casa() {
-        return numero_casa;
+    public int getNo_casa() {
+        return no_casa;
     }
 
-    public void setNumero_casa(int numero_casa) {
-        this.numero_casa = numero_casa;
+    public void setNo_casa(int no_casa) {
+        this.no_casa = no_casa;
     }
 }
