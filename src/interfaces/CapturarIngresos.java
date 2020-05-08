@@ -23,6 +23,8 @@ public class CapturarIngresos extends Stage {
     GridPane principal;
     Scene escena;
 
+    Alert alert = new Alert(Alert.AlertType.NONE);
+
     public void CrearGUI(){
         principal=new GridPane();
         lblFecha=new Label("Fecha");
@@ -86,7 +88,11 @@ public class CapturarIngresos extends Stage {
         setScene(escena);
         setMaximized(true);
         setTitle("Registro de Pago");
-        btnGuardar.setOnAction(event -> Guardar());
+        btnGuardar.setOnAction(event ->{
+            if(validacion()){
+                Guardar();
+            }
+        } );
         btnRegresar.setOnAction(event -> {
             this.close();
             Stage stage = new Stage();
@@ -104,5 +110,21 @@ public class CapturarIngresos extends Stage {
 
     public CapturarIngresos() {
         CrearGUI();
+    }
+
+    public boolean validacion(){
+        if(txtConcepto.getText().length()==0 || txtMonto.getText().length()==0 || txtnoCasa.getText().length()==0 || dpFecha.getValue()==null){
+            ALERTA();
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    private void ALERTA(){
+        alert.setAlertType(Alert.AlertType.ERROR);
+        alert.setTitle("ERROR");
+        alert.setContentText("Favor de llenar todos los campos");
+        alert.showAndWait();
     }
 }
