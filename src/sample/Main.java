@@ -1,7 +1,6 @@
 package sample;
 
 import interfaces.CapturarIngresos;
-import interfaces.interfazPrincipalEjemplo;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
