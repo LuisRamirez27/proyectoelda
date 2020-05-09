@@ -92,25 +92,27 @@ public class CapturarIngresos extends Stage {
         setTitle("Registro de Pago");
 
         btnGuardar.setOnAction(event -> {
-            try{
-                ingresoDAO agregar = new ingresoDAO();
-                no_casa = Integer.parseInt(txtnoCasa.getText());
-                concepto = txtConcepto.getText();
-                monto = Double.parseDouble(txtMonto.getText());
-                fecha1 = dpFecha.getValue().toString();
-                agregar.insert(no_casa,fecha1,concepto,monto);
-                tableView.getItems().clear();
-                tableView.setItems(new ingresoDAO().findAll());
-                txtTotalMes.setText(String.valueOf(new ingresoDAO().selectMontoMensual()));
-                txtSaldoTotal.setText(String.valueOf(new ingresoDAO().selectMontoTotal()));
-                txtnoCasa.clear();
-                txtConcepto.clear();
-                txtMonto.clear();
-           }catch (Exception e){}
-
+            if(validacion()){
+                try{
+                    ingresoDAO agregar = new ingresoDAO();
+                    no_casa = Integer.parseInt(txtnoCasa.getText());
+                    concepto = txtConcepto.getText();
+                    monto = Double.parseDouble(txtMonto.getText());
+                    fecha1 = dpFecha.getValue().toString();
+                    agregar.insert(no_casa,fecha1,concepto,monto);
+                    tableView.getItems().clear();
+                    tableView.setItems(new ingresoDAO().findAll());
+                    txtTotalMes.setText(String.valueOf(new ingresoDAO().selectMontoMensual()));
+                    txtSaldoTotal.setText(String.valueOf(new ingresoDAO().selectMontoTotal()));
+                    txtnoCasa.clear();
+                    txtConcepto.clear();
+                    txtMonto.clear();
+                    dpFecha.setValue(null);
+                }catch (Exception e){
+                    System.out.println(e);
+                }
+            }
         });
-
-
 
         btnRegresar.setOnAction(event -> {
             this.close();
