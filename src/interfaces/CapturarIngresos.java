@@ -10,6 +10,10 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import sample.Main;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class CapturarIngresos extends Stage {
     Label lblFecha,lblConcepto,lblMonto,lblTitulo,lblTotalMes,lblSaldoTotal,lblnoCasa;
     Button btnGuardar,btnRegresar;
@@ -94,20 +98,40 @@ public class CapturarIngresos extends Stage {
         btnGuardar.setOnAction(event -> {
             if(validacion()){
                 try{
+                    SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
                     ingresoDAO agregar = new ingresoDAO();
                     no_casa = Integer.parseInt(txtnoCasa.getText());
                     concepto = txtConcepto.getText();
                     monto = Double.parseDouble(txtMonto.getText());
-                    fecha1 = dpFecha.getValue().toString();
-                    agregar.insert(no_casa,fecha1,concepto,monto);
-                    tableView.getItems().clear();
-                    tableView.setItems(new ingresoDAO().findAll());
-                    txtTotalMes.setText(String.valueOf(new ingresoDAO().selectMontoMensual()));
-                    txtSaldoTotal.setText(String.valueOf(new ingresoDAO().selectMontoTotal()));
-                    txtnoCasa.clear();
-                    txtConcepto.clear();
-                    txtMonto.clear();
-                    dpFecha.setValue(null);
+                    fecha1 = dpFecha.getEditor().getText();
+                    TDARegistro registro=new TDARegistro();
+                    registro.setConcepto(concepto);
+                    registro.setMonto(monto);
+                    registro.setNo_casa(no_casa+"");
+                    registro.setFecha(formato.parse(fecha1));
+                    alert.setAlertType(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Confirmar informacion");
+                    alert.setContentText("No de casa: "+registro.getNo_casa()+"\n" +
+                                         "Fecha: "+formato.format(registro.getFecha())+"\n" +
+                                         "Monto: "+monto+"\n" +
+                                         "Concepto: "+concepto);
+                    alert.setHeaderText("La siguiente informacion es correcta?");
+                    alert.showAndWait();
+                    if (alert.getResult()==ButtonType.OK){
+                        agregar.insert(no_casa,dpFecha.getValue()+"",concepto,monto);
+                        tableView.getItems().clear();
+                        tableView.setItems(agregar.findAll());
+                        txtTotalMes.setText(String.valueOf(agregar.selectMontoMensual()));
+                        txtSaldoTotal.setText(String.valueOf(agregar.selectMontoTotal()));
+                        txtnoCasa.clear();
+                        txtConcepto.clear();
+                        txtMonto.clear();
+                        dpFecha.setValue(null);
+                    }
+                    if (alert.getResult()==ButtonType.CANCEL){
+                        alert.close();
+                    }
+
                 }catch (Exception e){
                     System.out.println(e);
                 }
@@ -145,4 +169,5 @@ public class CapturarIngresos extends Stage {
         alert.setContentText("Favor de llenar todos los campos");
         alert.showAndWait();
     }
+
 }
