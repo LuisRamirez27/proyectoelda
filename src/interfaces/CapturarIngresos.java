@@ -2,6 +2,7 @@ package interfaces;
 
 import Controladores.TDARegistro;
 import DAOs.ingresoDAO;
+import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -10,6 +11,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import sample.Main;
 
+import javax.xml.transform.sax.SAXSource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,6 +22,7 @@ public class CapturarIngresos extends Stage {
     TextField txtConcepto,txtMonto,txtTotalMes,txtSaldoTotal,txtnoCasa;
     DatePicker dpFecha;
     TableView tableView;
+    ComboBox cmbing;
     TableColumn<TDARegistro,String> clmnoCasa,clmFecha,clmConcepto,clmMonto;
     GridPane principal;
     Scene escena;
@@ -34,7 +37,7 @@ public class CapturarIngresos extends Stage {
         lblFecha=new Label("Fecha");
         lblConcepto=new Label("Concepto");
         lblMonto=new Label("Monto");
-        lblTitulo=new Label("Registro de Pago");
+        lblTitulo=new Label("Registro de Ingreso/Egreso");
         lblTotalMes=new Label("Total Ingresos del mes");
         lblSaldoTotal=new Label("Saldo Total en caja");
         lblSaldoTotal.setId("Total");
@@ -62,6 +65,8 @@ public class CapturarIngresos extends Stage {
         tableView.getColumns().addAll(clmnoCasa,clmFecha,clmConcepto,clmMonto);
 //----------------------------------------------------------------------------------------------------------------------
         btnGuardar=new Button("Guardar");
+        cmbing=new ComboBox();
+        cmbing.getItems().addAll("Ingreso","Egreso");
         btnRegresar = new Button("Regresar");
         dpFecha=new DatePicker();
         dpFecha.setPromptText("dd/mm/aa");
@@ -76,7 +81,9 @@ public class CapturarIngresos extends Stage {
         principal.add(txtMonto,1,3);
         principal.add(txtnoCasa,1,4);
         principal.add(lblnoCasa,0,4);
-        principal.add(btnGuardar,1,5);
+        principal.add(cmbing,1,5);
+        principal.add(new Label("Tipo"),0,5);
+        principal.add(btnGuardar,1,6);
         principal.add(tableView,2,1,1,5);
         principal.add(lblTotalMes,3,1);
         principal.add(txtTotalMes,3,2);
@@ -118,15 +125,17 @@ public class CapturarIngresos extends Stage {
                     alert.setHeaderText("La siguiente informacion es correcta?");
                     alert.showAndWait();
                     if (alert.getResult()==ButtonType.OK){
-                        agregar.insert(no_casa,dpFecha.getValue()+"",concepto,monto);
-                        tableView.getItems().clear();
-                        tableView.setItems(agregar.findAll());
+                        if (cmbing.getValue()=="Egreso")
+                            monto=monto*-1;
+                        agregar.insert(no_casa,dpFecha.getValue()+"",concepto,monto,cmbing.getValue()+"");
+                        tableView.refresh();
                         txtTotalMes.setText(String.valueOf(agregar.selectMontoMensual()));
                         txtSaldoTotal.setText(String.valueOf(agregar.selectMontoTotal()));
                         txtnoCasa.clear();
                         txtConcepto.clear();
                         txtMonto.clear();
                         dpFecha.setValue(null);
+                        cmbing.getSelectionModel().clearSelection();
                     }
                     if (alert.getResult()==ButtonType.CANCEL){
                         alert.close();

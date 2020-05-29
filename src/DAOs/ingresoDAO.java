@@ -69,9 +69,9 @@ public class ingresoDAO {
     }
 //----------------------------------------------------------------------------------------------------------------------
 //cambio
-    public boolean insert(int no_casa,String fecha,String concepto, double monto){
+    public boolean insert(int no_casa,String fecha,String concepto, double monto,String tipo){
         try{
-            String query="insert into ingreso (no_casa,fecha,concepto,monto) values ('"+no_casa+"','"+fecha+"','"+concepto+"',"+monto+");";
+            String query="insert into ingreso (no_casa,fecha,concepto,monto,tipo_monto) values ('"+no_casa+"','"+fecha+"','"+concepto+"',"+monto+",'"+tipo+"');";
             Statement statement=conn.createStatement();
             statement.execute(query);
             System.out.println("Se Agregado el Ingreso");
