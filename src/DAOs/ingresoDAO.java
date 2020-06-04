@@ -13,7 +13,7 @@ public class ingresoDAO {
     Connection conn=new MySQL().getConectar();
     private static ObservableList<TDARegistro> data = FXCollections.observableArrayList();
 //----------------------------------------------------------------------------------------------------------------------
-    public ObservableList<TDARegistro> findAll() {
+    /*public ObservableList<TDARegistro> findAll() {
         ObservableList<TDARegistro> registros = FXCollections.observableArrayList();
         try {
             String query = "select * from ingreso";
@@ -34,9 +34,33 @@ public class ingresoDAO {
             System.out.println("Error al recuperar información...");
         }
         return registros;
+    }*/
+
+    public ObservableList<TDARegistro> SelecRegistros() {
+        ObservableList<TDARegistro> registros = FXCollections.observableArrayList();
+        try {
+            String query = "SELECT fecha,concepto,monto,tipo_monto,numero_casa FROM ingreso_egreso";
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            TDARegistro r = null;
+            while (rs.next()) {
+                r = new TDARegistro(
+                        rs.getDate("fecha"),
+                        rs.getString("concepto"),
+                        rs.getDouble("monto"),
+                        rs.getString("tipo_monto"),
+                        rs.getString("numero_casa")
+                );
+                registros.add(r);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            System.out.println("Error al recuperar información...");
+        }
+        return registros;
     }
 //----------------------------------------------------------------------------------------------------------------------
-    public double selectMontoMensual(){
+    /*public double selectMontoMensual(){
         double monto=0;
         try {
 
@@ -50,9 +74,25 @@ public class ingresoDAO {
             System.out.println("Error al recuperar información...");
         }
         return monto;
+    }*/
+
+    public double selectMontoMensual(){
+        double monto=0;
+        try {
+
+            String query = "select sum(monto) montoXmes from ingreso_egreso where month(fecha)=month(now()) and year(fecha)=year(now());";
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            rs.next();
+            monto=rs.getDouble("montoXmes");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            System.out.println("Error al recuperar información...");
+        }
+        return monto;
     }
 //----------------------------------------------------------------------------------------------------------------------
-    public double selectMontoTotal(){
+    /*public double selectMontoTotal(){
         double monto=0;
         try {
 
@@ -66,10 +106,26 @@ public class ingresoDAO {
             System.out.println("Error al recuperar información...");
         }
         return monto;
+    }*/
+
+    public double selectMontoTotal(){
+        double monto=0;
+        try {
+
+            String query = "select sum(monto) montoTotal from ingreso_egreso";
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            rs.next();
+            monto=rs.getDouble("montoTotal");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            System.out.println("Error al recuperar información...");
+        }
+        return monto;
     }
 //----------------------------------------------------------------------------------------------------------------------
 //cambio
-    public boolean insert(int no_casa,String fecha,String concepto, double monto,String tipo){
+    /*public boolean insert(int no_casa,String fecha,String concepto, double monto,String tipo){
         try{
             String query="insert into ingreso (no_casa,fecha,concepto,monto,tipo_monto) values ('"+no_casa+"','"+fecha+"','"+concepto+"',"+monto+",'"+tipo+"');";
             Statement statement=conn.createStatement();
@@ -79,6 +135,22 @@ public class ingresoDAO {
         catch (Exception e){
             e.printStackTrace();
             System.out.println("Error al isertar el Ingreso");
+            return false;
+        }
+
+        return true;
+    }*/
+
+    public boolean insertIngreso_Egreso(String fecha, String concepto, double monto, String tipo, String no_casa){
+        try{
+            String query="insert into ingreso_egreso (fecha,concepto,monto,tipo_monto,numero_casa) values ('"+fecha+"','"+concepto+"',"+monto+",'"+tipo+"','"+no_casa+"');";
+            Statement statement=conn.createStatement();
+            statement.execute(query);
+            System.out.println("Se Agregado el Ingreso/Egreso");
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            System.out.println("Error al isertar el Ingreso/Egreso");
             return false;
         }
 

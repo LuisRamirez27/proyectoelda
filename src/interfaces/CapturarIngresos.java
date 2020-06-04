@@ -23,11 +23,12 @@ public class CapturarIngresos extends Stage {
     DatePicker dpFecha;
     TableView tableView;
     ComboBox cmbing;
-    TableColumn<TDARegistro,String> clmnoCasa,clmFecha,clmConcepto,clmMonto;
+    TableColumn<TDARegistro,String> clmFecha,clmConcepto,clmMonto,clmTipo,clmnoCasa;
     GridPane principal;
     Scene escena;
-    int no_casa;
-    String concepto,fecha1;
+
+    String no_casa;
+    String concepto,fecha1,tipoMonto;
     double monto;
 
     Alert alert = new Alert(Alert.AlertType.NONE);
@@ -38,7 +39,7 @@ public class CapturarIngresos extends Stage {
         lblConcepto=new Label("Concepto");
         lblMonto=new Label("Monto");
         lblTitulo=new Label("Registro de Ingreso/Egreso");
-        lblTotalMes=new Label("Total Ingresos del mes");
+        lblTotalMes=new Label("Total Ingresos/Egresos del mes");
         lblSaldoTotal=new Label("Saldo Total en caja");
         lblSaldoTotal.setId("Total");
         lblnoCasa= new Label("No° Casa");
@@ -53,16 +54,18 @@ public class CapturarIngresos extends Stage {
         txtnoCasa = new TextField();
 //----------------------------------------------------------------------------------------------------------------------
         tableView=new TableView();
-        clmnoCasa= new TableColumn<>("No° Casa");
-        clmnoCasa.setCellValueFactory(new PropertyValueFactory<>("no_casa"));
         clmFecha=new TableColumn("Fecha");
         clmFecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));
         clmConcepto=new TableColumn("Concepto");
         clmConcepto.setCellValueFactory(new PropertyValueFactory<>("concepto"));
         clmMonto=new TableColumn("Monto");
         clmMonto.setCellValueFactory(new PropertyValueFactory<>("monto"));
-        tableView.setItems(new ingresoDAO().findAll());
-        tableView.getColumns().addAll(clmnoCasa,clmFecha,clmConcepto,clmMonto);
+        clmTipo = new TableColumn("Tipo");
+        clmTipo.setCellValueFactory(new PropertyValueFactory<>("tipo_monto"));
+        clmnoCasa = new TableColumn("No° Casa");
+        clmnoCasa.setCellValueFactory(new PropertyValueFactory<>("numero_casa"));
+        tableView.getColumns().addAll(clmFecha,clmConcepto,clmMonto,clmTipo,clmnoCasa);
+        tableView.setItems(new ingresoDAO().SelecRegistros());
 //----------------------------------------------------------------------------------------------------------------------
         btnGuardar=new Button("Guardar");
         cmbing=new ComboBox();
@@ -100,35 +103,47 @@ public class CapturarIngresos extends Stage {
         escena.getStylesheets().add("css/estilo.css");
         setScene(escena);
         setMaximized(true);
-        setTitle("Registro de Pago");
+        setTitle("Registro de Ingreso/Egreso");
 
         btnGuardar.setOnAction(event -> {
             if(validacion()){
                 try{
                     SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
                     ingresoDAO agregar = new ingresoDAO();
-                    no_casa = Integer.parseInt(txtnoCasa.getText());
+
+                    fecha1 = dpFecha.getEditor().getText();
                     concepto = txtConcepto.getText();
                     monto = Double.parseDouble(txtMonto.getText());
-                    fecha1 = dpFecha.getEditor().getText();
-                    TDARegistro registro=new TDARegistro();
+                    //no_casa = Integer.parseInt(txtnoCasa.getText());
+                    no_casa = txtnoCasa.getText();
+                    //no_casa combio a String
+                    tipoMonto = (String)cmbing.getValue();
+
+                    TDARegistro registro = new TDARegistro();
+
+                    registro.setFecha(formato.parse(fecha1));
                     registro.setConcepto(concepto);
                     registro.setMonto(monto);
-                    registro.setNo_casa(no_casa+"");
-                    registro.setFecha(formato.parse(fecha1));
+                    registro.setTipo_monto(tipoMonto);
+                    registro.setNumero_casa(no_casa+"");
+
                     alert.setAlertType(Alert.AlertType.CONFIRMATION);
                     alert.setTitle("Confirmar informacion");
-                    alert.setContentText("No de casa: "+registro.getNo_casa()+"\n" +
-                                         "Fecha: "+formato.format(registro.getFecha())+"\n" +
+                    alert.setContentText("Fecha: "+formato.format(registro.getFecha())+"\n" +
+                                         "Concepto: "+concepto + "\n" +
                                          "Monto: "+monto+"\n" +
-                                         "Concepto: "+concepto);
+                                         "Tipo Monto: " + tipoMonto + "\n" +
+                                         "No de casa: "+registro.getNumero_casa()
+                                         );
                     alert.setHeaderText("La siguiente informacion es correcta?");
                     alert.showAndWait();
                     if (alert.getResult()==ButtonType.OK){
-                        if (cmbing.getValue()=="Egreso")
-                            monto=monto*-1;
-                        agregar.insert(no_casa,dpFecha.getValue()+"",concepto,monto,cmbing.getValue()+"");
-                        tableView.refresh();
+                        //if (cmbing.getValue()=="Egreso")
+                            //monto=monto*-1;
+                        //agregar.insert(no_casa,dpFecha.getValue()+"",concepto,monto,cmbing.getValue()+"");
+                        agregar.insertIngreso_Egreso(dpFecha.getValue()+"",txtConcepto.getText(),Double.parseDouble(txtMonto.getText()),cmbing.getValue()+"",txtnoCasa.getText());
+                        tableView.refresh();//No me actualiza la tabla :c
+                        tableView.setItems(new ingresoDAO().SelecRegistros());//Actualizo la tabla
                         txtTotalMes.setText(String.valueOf(agregar.selectMontoMensual()));
                         txtSaldoTotal.setText(String.valueOf(agregar.selectMontoTotal()));
                         txtnoCasa.clear();
@@ -145,7 +160,8 @@ public class CapturarIngresos extends Stage {
                     System.out.println(e);
                 }
             }
-        });
+        }
+        );
 
         btnRegresar.setOnAction(event -> {
             this.close();

@@ -20,7 +20,7 @@ public class Main extends Application {
     public void start(Stage _primaryStage) throws Exception{
         primaryStage = _primaryStage;
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("Captura de Ingresos");
+        primaryStage.setTitle("Interfaz principal");
         primaryStage.setScene(new Scene(root,400,275));
         primaryStage.isMaximized();
         primaryStage.resizableProperty().setValue(Boolean.FALSE);

@@ -5,11 +5,13 @@ import java.util.Date;
 
 public class TDARegistro {
     int id_ing;
+
     Date fecha;
     String concepto;
     double monto;
     String tipo_monto;
-    String no_casa;
+    String numero_casa;
+
     Connection conn;
 
 
@@ -18,19 +20,18 @@ public class TDARegistro {
     }
 
     public TDARegistro(String no_casa, Date fecha, String concepto, double monto) {
-        this.no_casa = no_casa;
+        this.numero_casa = no_casa;
         this.fecha = fecha;
         this.concepto = concepto;
         this.monto = monto;
     }
 
-    public TDARegistro(int id_ing, Date fecha, String concepto, double monto, String tipo_monto, String no_casa) {
-        this.id_ing = id_ing;
+    public TDARegistro( Date fecha, String concepto, double monto, String tipo_monto, String numero_casa) {
         this.fecha = fecha;
         this.concepto = concepto;
         this.monto = monto;
         this.tipo_monto = tipo_monto;
-        this.no_casa = no_casa;
+        this.numero_casa = numero_casa;
     }
 
     public int getId_ing() {
@@ -73,11 +74,11 @@ public class TDARegistro {
         this.tipo_monto = tipo_monto;
     }
 
-    public String getNo_casa() {
-        return no_casa;
+    public String getNumero_casa() {
+        return numero_casa;
     }
 
-    public void setNo_casa(String no_casa) {
-        this.no_casa = no_casa;
+    public void setNumero_casa(String numero_casa) {
+        this.numero_casa = numero_casa;
     }
 }
